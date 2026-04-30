@@ -3,6 +3,7 @@
 ## 1.7.0-beta.2 (Unreleased)
 
 ### Features Added
+* Added `Expect: 100-continue` pipeline policy that automatically sets the `Expect: 100-continue` header on `PUT` requests with a `Content-Length >= 8 MiB`. This avoids sending large request bodies when the service would reject them (e.g., during throttling). The behavior can be disabled by setting the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE` to `1` or `true`.
 
 ### Breaking Changes
 

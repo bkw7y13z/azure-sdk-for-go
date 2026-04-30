@@ -13,7 +13,7 @@ import (
 const (
 	// expectContinueThreshold is the minimum Content-Length (in bytes) for a PUT
 	// request to receive the "Expect: 100-continue" header. Requests with a body
-	// larger than 8 MiB get the header by default.
+	// >= 8 MiB get the header by default.
 	expectContinueThreshold int64 = 8 * 1024 * 1024
 
 	// EnvExpectContinueDisabled is the environment variable that, when set to "1"
