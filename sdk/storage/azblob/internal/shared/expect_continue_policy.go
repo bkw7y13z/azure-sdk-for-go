@@ -22,7 +22,7 @@ const (
 )
 
 // ExpectContinuePolicy is a per-retry pipeline policy that adds the
-// "Expect: 100-continue" header to PUT requests with Content-Length > 8 MiB.
+// "Expect: 100-continue" header to PUT requests with Content-Length >= 8 MiB.
 //
 // This allows the server to reject the request (e.g. with 429 or 403) before
 // the client sends the full body, saving bandwidth under throttling or error
