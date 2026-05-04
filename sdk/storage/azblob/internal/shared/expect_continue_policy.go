@@ -35,6 +35,17 @@ type ExpectContinuePolicy struct {
 	disabled bool
 }
 
+// defaultExpectContinuePolicy is a package-level singleton. All client
+// constructors share this instance — the env var is read once per process.
+var defaultExpectContinuePolicy = NewExpectContinuePolicy()
+
+// DefaultExpectContinuePolicy returns the shared package-level singleton
+// ExpectContinuePolicy. The environment variable is read once at first use
+// rather than on every client construction.
+func DefaultExpectContinuePolicy() *ExpectContinuePolicy {
+	return defaultExpectContinuePolicy
+}
+
 // NewExpectContinuePolicy creates a new ExpectContinuePolicy. It reads the
 // environment variable at construction time so it does not check the env on
 // every request.

@@ -42,7 +42,7 @@ func NewClient(containerURL string, cred azcore.TokenCredential, options *Client
 	audience := base.GetAudience((*base.ClientOptions)(options))
 	conOptions := shared.GetClientOptions(options)
 	authPolicy := shared.NewStorageChallengePolicy(cred, audience, conOptions.InsecureAllowCredentialWithHTTP)
-	ecPolicy := shared.NewExpectContinuePolicy()
+	ecPolicy := shared.DefaultExpectContinuePolicy()
 	plOpts := runtime.PipelineOptions{PerRetry: []policy.Policy{authPolicy, ecPolicy}}
 
 	azClient, err := azcore.NewClient(exported.ModuleName, exported.ModuleVersion, plOpts, &conOptions.ClientOptions)
@@ -58,7 +58,7 @@ func NewClient(containerURL string, cred azcore.TokenCredential, options *Client
 //   - options - client options; pass nil to accept the default values
 func NewClientWithNoCredential(containerURL string, options *ClientOptions) (*Client, error) {
 	conOptions := shared.GetClientOptions(options)
-	ecPolicy := shared.NewExpectContinuePolicy()
+	ecPolicy := shared.DefaultExpectContinuePolicy()
 	plOpts := runtime.PipelineOptions{PerRetry: []policy.Policy{ecPolicy}}
 
 	azClient, err := azcore.NewClient(exported.ModuleName, exported.ModuleVersion, plOpts, &conOptions.ClientOptions)
@@ -75,7 +75,7 @@ func NewClientWithNoCredential(containerURL string, options *ClientOptions) (*Cl
 func NewClientWithSharedKeyCredential(containerURL string, cred *SharedKeyCredential, options *ClientOptions) (*Client, error) {
 	authPolicy := exported.NewSharedKeyCredPolicy(cred)
 	conOptions := shared.GetClientOptions(options)
-	ecPolicy := shared.NewExpectContinuePolicy()
+	ecPolicy := shared.DefaultExpectContinuePolicy()
 	plOpts := runtime.PipelineOptions{PerRetry: []policy.Policy{authPolicy, ecPolicy}}
 
 	azClient, err := azcore.NewClient(exported.ModuleName, exported.ModuleVersion, plOpts, &conOptions.ClientOptions)
