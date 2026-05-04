@@ -158,6 +158,32 @@ func TestExpectContinue_DisabledByEnvVarTrue(t *testing.T) {
 	require.Empty(t, transport.lastExpectHdr)
 }
 
+func TestExpectContinue_DisabledByEnvVarTRUE(t *testing.T) {
+	t.Setenv(EnvExpectContinueDisabled, "TRUE")
+	transport := &mockTransport{statusCode: http.StatusCreated}
+	ecPolicy := NewExpectContinuePolicy()
+	pl := newTestPipeline(ecPolicy, transport)
+
+	req, err := newPutRequest(expectContinueThreshold + 1)
+	require.NoError(t, err)
+	_, err = pl.Do(req)
+	require.NoError(t, err)
+	require.Empty(t, transport.lastExpectHdr)
+}
+
+func TestExpectContinue_DisabledByEnvVarTrueMixedCase(t *testing.T) {
+	t.Setenv(EnvExpectContinueDisabled, "True")
+	transport := &mockTransport{statusCode: http.StatusCreated}
+	ecPolicy := NewExpectContinuePolicy()
+	pl := newTestPipeline(ecPolicy, transport)
+
+	req, err := newPutRequest(expectContinueThreshold + 1)
+	require.NoError(t, err)
+	_, err = pl.Do(req)
+	require.NoError(t, err)
+	require.Empty(t, transport.lastExpectHdr)
+}
+
 func TestExpectContinue_NotDisabledByOtherEnvValues(t *testing.T) {
 	t.Setenv(EnvExpectContinueDisabled, "false")
 	transport := &mockTransport{statusCode: http.StatusCreated}

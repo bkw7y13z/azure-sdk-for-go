@@ -6,6 +6,7 @@ package shared
 import (
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 )
@@ -40,7 +41,7 @@ type ExpectContinuePolicy struct {
 func NewExpectContinuePolicy() *ExpectContinuePolicy {
 	v := os.Getenv(EnvExpectContinueDisabled)
 	return &ExpectContinuePolicy{
-		disabled: v == "1" || v == "true",
+		disabled: v == "1" || strings.EqualFold(v, "true"),
 	}
 }
 
